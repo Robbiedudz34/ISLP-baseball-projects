@@ -31,14 +31,40 @@ y = df["hit_distance_sc"].values
 X1 = df[["launch_speed"]].values
 X2 = df[["launch_angle"]].values
 
-# Minimal sample of data for display
-plot_df = df.sample(n=15000, random_state=42)
+# ----------------------------
+# Correlation Eval - show that two independent variables will work together later
+# ----------------------------
+corr = df["launch_speed"].corr(df["launch_angle"])
+print(f"Pearson correlation (EV vs LA): {corr:.4f}")
+
+plot_df = df.sample(n=20000, random_state=42)
+
+plt.figure(figsize=(6, 6))
+plt.scatter(
+    plot_df["launch_speed"],
+    plot_df["launch_angle"],
+    alpha=0.25,
+    s=10
+)
+
+plt.xlabel("Exit Velocity")
+plt.ylabel("Launch Angle")
+plt.title(
+    f"Launch Angle vs Exit Velocity\n"
+    f"Pearson r = {corr:.3f}"
+)
+
+plt.axhline(0, color="gray", linewidth=1, alpha=0.5)
+plt.tight_layout()
+plt.show()
 
 # ----------------------------
 # Grid for display - Exit Velocity
 # ----------------------------
 x1_grid = np.linspace(X1.min(), X1.max(), 300).reshape(-1, 1)
 
+# Minimal sample of data for display
+plot_df = df.sample(n=15000, random_state=42)
 # ----------------------------
 # A. Linear OLS
 # ----------------------------
